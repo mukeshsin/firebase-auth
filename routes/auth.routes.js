@@ -1,28 +1,11 @@
 // Import express
-import express from "express";
+const express = require("express");
 
-
-import{createUser} from "../controllers/auth.controllers.js";
-
+const createUser = require("../controllers/auth.controllers.js");
 
 // Init express router
 const router = express.Router();
 
+router.post("/add/User", createUser);
 
-
-
-router.post("/add/User",createUser);
-
-
-
-
-
-
-
-
-
-
-
-
-
-export default router;
+module.exports = router;

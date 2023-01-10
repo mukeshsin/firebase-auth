@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize";
+const Sequelize = require("sequelize");
 
 const db = new Sequelize("fbauth", "root", "singh@2023", {
   host: "localhost",
@@ -11,4 +11,4 @@ const db = new Sequelize("fbauth", "root", "singh@2023", {
     idle: 10000,
   },
 });
-export default db;
+module.exports = db;
