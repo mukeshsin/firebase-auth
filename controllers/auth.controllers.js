@@ -1,12 +1,4 @@
 const admin = require("firebase-admin");
-const {initializeFirebaseApp}= require("../config/config.js")
-
-const serviceAccount = require("../nodeassign-firebase-adminsdk-7rp5j-0a456fe229.json");
-if(!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-  });
-}
 
 const createUser = async (req, res) => {
   try {
