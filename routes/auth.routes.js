@@ -9,6 +9,6 @@ const router = express.Router();
 
 router.post("/add/User", createUser);
 router.put("/add/user/profile", updateUserProfile);
-router.post("/add/user/addUser",addFriend);
+router.post("/add/user/addfriend",addFriend);
 
 module.exports = router;
