@@ -38,7 +38,6 @@ const updateUserProfile = async (req, res) => {
     res.status(400).send({ message: "Image size must be less than 2MB" });
     return;
   }
-
   // Add the user's profile to the "example-collection" collection
   db.collection("users")
     .doc(userIdString)
@@ -54,5 +53,23 @@ const updateUserProfile = async (req, res) => {
       res.status(500).send({ message: "error creating user profile" });
     });
 };
+const addFriend = async (req, res) => {
+  try {
+    const db = admin.firestore();
+    const friendsRef = db.collection("friends");
+    const friendDocRef = friendsRef.doc();
+    await friendDocRef.set({
+      userId: req.body.userId,
+      friendId: req.body.friendId,
+      addedOn: admin.firestore.FieldValue.serverTimestamp(),
+    });
 
-module.exports = (createUser, updateUserProfile);
+    res.status(200).send({
+      message: "Friend added Successfully",
+      response: friendDocRef,
+    });
+  } catch (error) {
+    console.log({ message: "Error adding Friend" });
+  }
+};
+module.exports = (createUser, updateUserProfile, addFriend);
