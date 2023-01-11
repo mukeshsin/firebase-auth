@@ -18,19 +18,24 @@ const createUser = async (req, res) => {
 };
 
 const updateUserProfile = async (req, res) => {
-  
-    await admin.auth().onUpdate((user) => {
-
   const db = admin.firestore();
-  // Create a new document in the 'users' collection with the user's UID as the document ID
-  return db.collection('users').doc(user.uid).set({
-    address: 'req.body.address',
-    profileImage: 'req.body.profileImage',
-    createdAt: admin.firestore.FieldValue.serverTimestamp()
-  });
-    
+  //get user data on request body
+  const userId = req.body.userId;
+  const address = req.body.address;
+  // Add the user's profile to the "example-collection" collection
+  db.collection("users")
+    .doc(userId)
+    .set({
+      userId,
+      address,
+    })
+    .then(() => {
+      res.status(200).send({ message: "User profile created successfully" });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send({ message: "error creating user profile" });
+    });
+};
 
-}
-)};
-module.exports = (createUser,updateUserProfile)
-
+module.exports = (createUser, updateUserProfile);
