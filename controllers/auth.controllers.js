@@ -17,4 +17,25 @@ const createUser = async (req, res) => {
   }
 };
 
-module.exports = createUser;
+const updateUserProfile = async (req, res) => {
+  const db = admin.firestore();
+  //get user data on request body
+  const userId = req.body.userId;
+  const address = req.body.address;
+  // Add the user's profile to the "example-collection" collection
+  db.collection("users")
+    .doc(userId)
+    .set({
+      userId,
+      address,
+    })
+    .then(() => {
+      res.status(200).send({ message: "User profile created successfully" });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send({ message: "error creating user profile" });
+    });
+};
+
+module.exports = (createUser, updateUserProfile);
