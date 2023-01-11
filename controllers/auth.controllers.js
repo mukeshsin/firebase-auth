@@ -21,13 +21,30 @@ const updateUserProfile = async (req, res) => {
   const db = admin.firestore();
   //get user data on request body
   const userId = req.body.userId;
-  const address = req.body.address;
+  const profileImage = req.body.profileImage;
+
+  if (!userId) {
+    res.status(400).send({ message: "userId is required" });
+    return;
+  }
+  // Ensure userId is a string
+  const userIdString = userId.toString();
+
+  const imageSize = Buffer.byteLength(profileImage, "base64");
+  // declared 2mb
+  const maxFileSize = 2 * 1024 * 1024;
+  // image size is less than maxfilesize
+  if (imageSize < maxFileSize) {
+    res.status(400).send({ message: "Image size must be less than 2MB" });
+    return;
+  }
+
   // Add the user's profile to the "example-collection" collection
   db.collection("users")
-    .doc(userId)
+    .doc(userIdString)
     .set({
       userId,
-      address,
+      profileImage,
     })
     .then(() => {
       res.status(200).send({ message: "User profile created successfully" });
